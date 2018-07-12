@@ -1,0 +1,19 @@
+import requests
+import csv
+
+apilink='Your Own Flurry API Link From Flurry Query Builder make sure the format is CSV'
+flurry_token='Your Own Flurry Token of the FLurry'
+headerss = {'Authorization': 'Bearer ' + flurry_token}
+requestData= requests.get(apilink,headers=headerss)
+values=requestData.text.split("\n")
+print(values)
+print(requestData.text)
+myData=[]
+for line in values:
+    val=line.split(',')
+    myData.append(val)
+
+myFile = open('P:\FlurryApiData.csv', 'w',newline='')
+with myFile:
+    writer = csv.writer(myFile)
+    writer.writerows(myData)
