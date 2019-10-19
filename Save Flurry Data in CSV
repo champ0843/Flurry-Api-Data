@@ -1,0 +1,47 @@
+import urllib.request
+import requests
+import csv
+import pandas as pd
+import json
+
+apilink='Your Own Flurry API Link From Flurry Query Builder make sure the format is CSV'
+flurry_token='Your Own Flurry Token of the FLurry'
+
+headerss = {'Authorization': 'Bearer ' + flurry_token}
+requestData= requests.get(apiLink,headers=headerss)
+values=requestData.text.split("\n")
+
+myData=[]
+for line in values:
+    val=line.split(',')
+    print(val)
+    myData.append(val)
+
+del myData[0]
+print(myData)
+actualData=[]
+for val in myData:
+    if len(val)==6:
+        strVal=str(val[4])
+        print(strVal)
+        intVal=int(val[5])
+        tempVal=[]
+        tempVal.append(strVal)
+        tempVal.append(intVal)
+        actualData.append(tempVal)
+        print(tempVal)
+
+del actualData[0]
+
+def getTheKey(data):
+    print(data[1])
+    return data[1]
+actualData=sorted(actualData,key=getTheKey,reverse=True)
+
+print(actualData)
+
+myFile = open('D:\Analytics\TRY CREATO\ModelOpenedIconClick.ods', 'w',newline='')
+
+with myFile:
+   writer = csv.writer(myFile)
+   writer.writerows(actualData)
